@@ -2,6 +2,10 @@ package com.duncbh.movieapp.businesslayer;
 
 import com.duncbh.movieapp.datalayer.Movie;
 import com.duncbh.movieapp.datalayer.MovieRepository;
+import com.duncbh.movieapp.datamapperlayer.MovieRequestMapper;
+import com.duncbh.movieapp.datamapperlayer.MovieResponseMapper;
+import com.duncbh.movieapp.presentationlayer.MovieRequestModel;
+import com.duncbh.movieapp.presentationlayer.MovieResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +14,12 @@ import java.util.Optional;
 
 @Service
 public class MovieFinderServiceImpl implements MovieFinderService {
+
+    @Autowired
+    private MovieRequestMapper movieRequestMapper;
+
+    @Autowired
+    private MovieResponseMapper movieResponseMapper;
 
     private MovieRepository movieRepository;
 
@@ -25,8 +35,9 @@ public class MovieFinderServiceImpl implements MovieFinderService {
     }
 
     @Override
-    public Movie addNewMovie(Movie movie) {
-        return movieRepository.save(movie);
+    public MovieResponseModel addNewMovie(MovieRequestModel requestModel) {
+        Movie movie = MovieRequestMapper
+        movieRepository.save(movie);
     }
 
     @Override

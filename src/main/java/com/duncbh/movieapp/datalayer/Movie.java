@@ -14,6 +14,9 @@ import javax.persistence.*;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, name = "movieid")
+    private Integer movieId;
+
     private Integer id; //private id
 
     private String title;
