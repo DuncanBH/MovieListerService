@@ -1,17 +1,18 @@
 package com.duncbh.movieapp.businesslayer;
 
-import com.duncbh.movieapp.datalayer.Movie;
+import com.duncbh.movieapp.presentationlayer.MovieRequestModel;
+import com.duncbh.movieapp.presentationlayer.MovieResponseModel;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MovieFinderService {
-    List<Movie> findAllMovies();
-    Movie addNewMovie(Movie movie);
+    MovieResponseModel getMovieById(int movId);
 
-    Optional<Movie> getMovieById(Long movId);
+    List<MovieResponseModel> findAllMovies();
 
-    Movie updateMovie(Movie movie, int movId);
+    MovieResponseModel createMovie(MovieRequestModel movie);
+
+    MovieResponseModel updateMovie(MovieRequestModel movie, int movId);
 
     void deleteMovieById(int movId);
 }

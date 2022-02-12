@@ -6,15 +6,18 @@ import com.duncbh.movieapp.datamapperlayer.MovieRequestMapper;
 import com.duncbh.movieapp.datamapperlayer.MovieResponseMapper;
 import com.duncbh.movieapp.presentationlayer.MovieRequestModel;
 import com.duncbh.movieapp.presentationlayer.MovieResponseModel;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MovieFinderServiceImpl implements MovieFinderService {
 
+    final int LENGTH_ID = 8;
     @Autowired
     private MovieRequestMapper movieRequestMapper;
 
@@ -29,31 +32,54 @@ public class MovieFinderServiceImpl implements MovieFinderService {
     }
 
     @Override
-    public List<Movie> findAllMovies() {
+    public List<MovieResponseModel> findAllMovies() {
         List<Movie> movies = (List<Movie>) movieRepository.findAll();
-        return movies;
+        return movieResponseMapper.entityListToResponseModelList(movies);
     }
 
     @Override
-    public MovieResponseModel addNewMovie(MovieRequestModel requestModel) {
-        Movie movie = MovieRequestMapper
-        movieRepository.save(movie);
+    public MovieResponseModel createMovie(MovieRequestModel requestModel) {
+        Movie movie = movieRequestMapper.requestModelToEntity(requestModel);
+
+        String shortIdString = RandomStringUtils.randomNumeric(LENGTH_ID);
+        Integer shortId = Integer.valueOf(shortIdString);
+
+        movie.setMovieId(shortId);
+
+        //return saved movie (as model)
+        return movieResponseMapper.entityToResponseModel(movieRepository.save(movie));
     }
 
     @Override
-    public Optional<Movie> getMovieById(Long movId) {
-        Optional<Movie> movie = movieRepository.findById(movId.intValue() );
-        return movie;
+    public MovieResponseModel getMovieById(int movId) {
+        Movie movie = movieRepository.findMovieByMovieId(movId);
+
+        return movieResponseMapper.entityToResponseModel(movie);
     }
 
     @Override
-    public Movie updateMovie(Movie movie, int movId) {
-        movie.setId(movId);
-        return movieRepository.save(movie);
+    public MovieResponseModel updateMovie(MovieRequestModel movie, int movId) {
+        //guard clause to check movie is in DB before updating
+        if (!movieRepository.existsMovieByMovieId(movId)) { return null;}
+
+        //Get old movie
+        Movie oldMovie = movieRepository.findMovieByMovieId(movId);
+
+        //Copy movieId of old to new
+        Movie newMovie = movieRequestMapper.requestModelToEntity(movie);
+        newMovie.setId(oldMovie.getId());
+        newMovie.setMovieId(movId);
+
+        //save movie, convert to then return model
+        return movieResponseMapper.entityToResponseModel(movieRepository.save(newMovie));
     }
 
+    @Transactional
     @Override
     public void deleteMovieById(int movId) {
-        movieRepository.deleteById(movId);
+        //guard clause to check movie is in DB before updating
+        if (!movieRepository.existsMovieByMovieId(movId)) { throw new EntityNotFoundException("Invalid MovieId was provided");}
+
+        movieRepository.deleteMovieByMovieId(movId);
     }
 }

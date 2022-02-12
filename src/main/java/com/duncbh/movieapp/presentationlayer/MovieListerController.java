@@ -1,12 +1,10 @@
 package com.duncbh.movieapp.presentationlayer;
 
 import com.duncbh.movieapp.businesslayer.MovieFinderService;
-import com.duncbh.movieapp.datalayer.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -16,24 +14,24 @@ public class MovieListerController {
     private MovieFinderService movieFinderService;
 
     @GetMapping("/movies")
-    public List<Movie> getAllMovies() {
-        List<Movie> movies = movieFinderService.findAllMovies();
+    public List<MovieResponseModel> getAllMovies() {
+        List<MovieResponseModel> movies = movieFinderService.findAllMovies();
         return movies;
     }
 
     @GetMapping("/movies/{movId}")
-    public Optional<Movie> getMovieById(@PathVariable Long movId) {
-        Optional<Movie> movie = movieFinderService.getMovieById(movId);
+    public MovieResponseModel getMovieById(@PathVariable int movId) {
+        MovieResponseModel movie = movieFinderService.getMovieById(movId);
         return movie;
     }
 
     @PostMapping("/movies")
-    public Movie newMovie(@RequestBody Movie movie) {
-        return movieFinderService.addNewMovie(movie);
+    public MovieResponseModel newMovie(@RequestBody MovieRequestModel movie) {
+        return movieFinderService.createMovie(movie);
     }
 
     @PutMapping("/movies/{movId}")
-    public Movie updateMovie(@RequestBody Movie movie, @PathVariable int movId) {
+    public MovieResponseModel updateMovie(@RequestBody MovieRequestModel movie, @PathVariable int movId) {
         return movieFinderService.updateMovie(movie, movId);
     }
 
