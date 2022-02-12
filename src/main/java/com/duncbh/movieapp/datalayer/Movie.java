@@ -14,10 +14,10 @@ import javax.persistence.*;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id; //private id
+
     @Column(unique = true, name = "movieid")
     private Integer movieId;
-
-    private Integer id; //private id
 
     private String title;
     private String director;
