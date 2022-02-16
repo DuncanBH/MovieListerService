@@ -5,12 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
-@NoArgsConstructor
-@Setter
 @Getter
-public class MovieResponseModel extends RepresentationModel<MovieResponseModel> {
-    private int movieId;
+@Setter
+@NoArgsConstructor
+public class LanguageMovieResponseModel extends RepresentationModel<LanguageMovieResponseModel> {
+    private Integer languageId;
+    private Integer movieId;
     private String title;
-    private String director;
-    private String lang;
 }

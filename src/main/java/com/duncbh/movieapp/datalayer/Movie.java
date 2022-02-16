@@ -18,7 +18,10 @@ public class Movie {
 
     @Column(unique = true, name = "movieid")
     private Integer movieId;
-
     private String title;
     private String director;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "languageid", nullable = false)
+    private Language language;
 }
