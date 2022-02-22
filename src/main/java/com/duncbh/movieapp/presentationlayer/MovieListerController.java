@@ -2,6 +2,7 @@ package com.duncbh.movieapp.presentationlayer;
 
 import com.duncbh.movieapp.businesslayer.MovieFinderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class MovieListerController {
     private MovieFinderService movieFinderService;
 
     @GetMapping("/movies")
+    @Transactional
     public List<MovieResponseModel> getAllMovies() {
         List<MovieResponseModel> movies = movieFinderService.findAllMovies();
         return movies;

@@ -3,6 +3,7 @@ package com.duncbh.movieapp.presentationlayer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 
 @NoArgsConstructor
@@ -13,4 +14,5 @@ public class MovieResponseModel extends RepresentationModel<MovieResponseModel> 
     private String title;
     private String director;
     private String lang;
+    private Links links;
 }

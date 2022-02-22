@@ -1,5 +1,6 @@
 package com.duncbh.movieapp.businesslayer;
 
+import com.duncbh.movieapp.datalayer.LanguageRepository;
 import com.duncbh.movieapp.datalayer.Movie;
 import com.duncbh.movieapp.datalayer.MovieRepository;
 import com.duncbh.movieapp.datamapperlayer.MovieRequestMapper;
@@ -24,12 +25,16 @@ public class MovieFinderServiceImpl implements MovieFinderService {
     @Autowired
     private MovieResponseMapper movieResponseMapper;
 
+
     private MovieRepository movieRepository;
+    private LanguageRepository languageRepository;
 
     @Autowired
-    MovieFinderServiceImpl(MovieRepository movieRepository) {
+    MovieFinderServiceImpl(MovieRepository movieRepository, LanguageRepository languageRepository) {
         this.movieRepository = movieRepository;
+        this.languageRepository = languageRepository;
     }
+
 
     @Override
     public List<MovieResponseModel> findAllMovies() {
@@ -46,6 +51,7 @@ public class MovieFinderServiceImpl implements MovieFinderService {
 
         movie.setMovieId(shortId);
 
+        movie.setLanguage(languageRepository.findLanguageByName(requestModel.getLang()));
         //return saved movie (as model)
         return movieResponseMapper.entityToResponseModel(movieRepository.save(movie));
     }
@@ -70,6 +76,8 @@ public class MovieFinderServiceImpl implements MovieFinderService {
         newMovie.setId(oldMovie.getId());
         newMovie.setMovieId(movId);
 
+        //Set Language
+        newMovie.setLanguage(languageRepository.findLanguageByName(movie.getLang()));
         //save movie, convert to then return model
         return movieResponseMapper.entityToResponseModel(movieRepository.save(newMovie));
     }

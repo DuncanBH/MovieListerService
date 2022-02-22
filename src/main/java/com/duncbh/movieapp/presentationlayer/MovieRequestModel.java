@@ -10,4 +10,5 @@ import lombok.Setter;
 public class MovieRequestModel {
     private String title;
     private String director;
+    private String lang;
 }

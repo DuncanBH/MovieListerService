@@ -2,6 +2,7 @@ package com.duncbh.movieapp.presentationlayer;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.RepresentationModel;
 
 @Getter
@@ -9,4 +10,5 @@ import org.springframework.hateoas.RepresentationModel;
 public class LanguageResponseModel extends RepresentationModel<LanguageResponseModel> {
     private Integer languageId;
     private String name;
+    private Links links;
 }
