@@ -20,14 +20,14 @@ public class MovieAppApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(MovieAppApplication.class, args);
-
+/*
         MovieListerController lister = context.getBean(MovieListerController.class);
 
         List<MovieResponseModel> movies = lister.getAllMovies();
 
         for (MovieResponseModel movie : movies) {
             System.out.println(movie.getTitle() + " / " + movie.getDirector());
-        }
+        }*/
     }
 
 }
