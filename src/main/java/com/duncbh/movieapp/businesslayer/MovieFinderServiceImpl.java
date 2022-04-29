@@ -7,6 +7,7 @@ import com.duncbh.movieapp.datamapperlayer.MovieRequestMapper;
 import com.duncbh.movieapp.datamapperlayer.MovieResponseMapper;
 import com.duncbh.movieapp.presentationlayer.MovieRequestModel;
 import com.duncbh.movieapp.presentationlayer.MovieResponseModel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class MovieFinderServiceImpl implements MovieFinderService {
 
@@ -39,6 +41,7 @@ public class MovieFinderServiceImpl implements MovieFinderService {
     @Override
     public List<MovieResponseModel> findAllMovies() {
         List<Movie> movies = (List<Movie>) movieRepository.findAll();
+
         return movieResponseMapper.entityListToResponseModelList(movies);
     }
 
@@ -58,9 +61,15 @@ public class MovieFinderServiceImpl implements MovieFinderService {
 
     @Override
     public MovieResponseModel getMovieById(int movId) {
-        Movie movie = movieRepository.findMovieByMovieId(movId);
 
-        return movieResponseMapper.entityToResponseModel(movie);
+        if (movieRepository.existsMovieByMovieId(movId)) {
+
+            Movie movie = movieRepository.findMovieByMovieId(movId);
+            log.debug("movie retrieved {}", movie.getMovieId());
+            return movieResponseMapper.entityToResponseModel(movie);
+        }
+        else return null;
+
     }
 
     @Override

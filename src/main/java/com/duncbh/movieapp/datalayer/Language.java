@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.mapstruct.Mapping;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Table(name = "languages")
-public class Language {
+public class Language implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -22,6 +22,6 @@ public class Movie {
     private String director;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "languageid", nullable = false)
+    @JoinColumn(name = "languageid", referencedColumnName = "languageid", nullable = false)
     private Language language;
 }

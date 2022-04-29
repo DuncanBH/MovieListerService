@@ -1,9 +1,5 @@
 USE `movielister-db`;
 
-/*fix this*/
-drop table if exists movies;
-drop table if exists languages;
-
 create table if not exists languages
 (
     id         INTEGER     NOT NULL AUTO_INCREMENT PRIMARY KEY,
