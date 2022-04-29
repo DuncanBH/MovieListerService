@@ -65,7 +65,7 @@ public class MovieFinderServiceImpl implements MovieFinderService {
         if (movieRepository.existsMovieByMovieId(movId)) {
 
             Movie movie = movieRepository.findMovieByMovieId(movId);
-            log.debug("movie retrieved {}", movie.getMovieId());
+            //log.debug("movie retrieved {}", movie.getMovieId());
             return movieResponseMapper.entityToResponseModel(movie);
         }
         else return null;
